@@ -46,8 +46,10 @@ RUN $INST_SCRIPTS/no_vnc.sh
 RUN $INST_SCRIPTS/firefox.sh
 RUN $INST_SCRIPTS/chrome.sh
 
-### Install xfce UI
+### Install xfce UI Theme and Icon
 RUN $INST_SCRIPTS/xfce_ui.sh
+RUN $INST_SCRIPTS/theme_and_icon.sh
+ADD ./src/common/themes/Qogir /usr/share/themes/Qogir/
 ADD ./src/common/xfce/ $HOME/
 
 ### configure startup
