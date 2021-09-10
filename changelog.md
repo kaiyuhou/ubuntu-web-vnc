@@ -2,6 +2,7 @@
 
 TODO
  * Update to Ubuntu 20.04
+ * Chrome not work on ARM64 Oracle Linux (seems to be a problem of chromium)
  * Chinese Input
  * Sound
  * Add domain name to the noVNC title
@@ -11,6 +12,7 @@ TODO
  * Remove redundant content in Qogir theme
  * Support ARM64 (with buildx script)
  * Update run script with password input support
+ * ARM 64 Support Firefox
 
 2021-09-09
  * update to Ubuntu 18.04
