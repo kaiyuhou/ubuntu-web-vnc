@@ -1,10 +1,11 @@
 #!/bin/bash
+datetag=$(date '+%Y%m%d')
 docker buildx build \
   --push \
   --platform linux/amd64,linux/arm64 \
   -t kaiyhou/ubuntu-vnc:latest \
   -t kaiyhou/ubuntu-vnc:18.04 \
-  -t kaiyhou/ubuntu-vnc:18.04-20210910 \
+  -t kaiyhou/ubuntu-vnc:18.04-$datetag \
   -f Dockerfile.ubuntu.xfce.vnc .
 
 
