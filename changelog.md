@@ -5,6 +5,7 @@ TODO
  * Chinese Input
  * Sound
  * Add domain name to the noVNC title
+ * Git Action for auto build and push
 
 2021-09-10
  * Remove redundant content in Qogir theme
