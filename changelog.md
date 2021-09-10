@@ -4,6 +4,7 @@ TODO
  * Update to Ubuntu 20.04
  * Chinese Input
  * Sound
+ * Add domain name to the noVNC title
 
 2021-09-10
  * Remove redundant content in Qogir theme
