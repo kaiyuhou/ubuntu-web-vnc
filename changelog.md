@@ -1,3 +1,20 @@
+## Changelog after Kaiyu took care of it
+
+TODO
+ * Update to Ubuntu 20.04
+ * Support ARM64 (aarch64)
+ * Chinese Input
+ * Sound
+
+2021-09-10
+ * update to Ubuntu 18.04
+ * add user ubuntu with sudo permission
+ * install sublime and docker
+ * sync the timezone from the host
+ * set up xfce4 theme and icons, and many more details of the UI
+ * BUG SOLVED: two xfce4 sessions, two xfce4-panels, etc...
+
+
 ## Changelog of the Docker headless VNC images
 
 ### Version 1.4.0:

@@ -12,9 +12,6 @@ fi
 
 IMAGES=(
 	"consol/ubuntu-xfce-vnc"
-    "consol/centos-xfce-vnc"
-    "consol/ubuntu-icewm-vnc"
-    "consol/centos-icewm-vnc"
 )
 
 #Loop

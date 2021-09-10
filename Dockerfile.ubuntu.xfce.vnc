@@ -6,7 +6,7 @@ ENV REFRESHED_AT 2021-09-09
 
 ## Connection ports for controlling the UI:
 # VNC port:5901
-# noVNC webport, connect via http://IP:6901/?password=vncpassword
+# noVNC webport, connect via http://IP:6901/?password=VNC_PASSWORD
 ENV DISPLAY=:1 \
     VNC_PORT=5901 \
     NO_VNC_PORT=6901
@@ -21,12 +21,11 @@ ENV HOME=/headless \
     DEBIAN_FRONTEND=noninteractive \
     VNC_COL_DEPTH=24 \
     VNC_RESOLUTION=1600x900 \
-    VNC_PW=vncpassword \
+    VNC_PW=VNC_PASSWORD \
     VNC_VIEW_ONLY=false
 WORKDIR $HOME
 
 ### Add all install scripts for further steps
-ADD ./src/common/install/ $INST_SCRIPTS/
 ADD ./src/ubuntu/install/ $INST_SCRIPTS/
 RUN find $INST_SCRIPTS -name '*.sh' -exec chmod a+x {} +
 
@@ -46,18 +45,30 @@ RUN $INST_SCRIPTS/no_vnc.sh
 RUN $INST_SCRIPTS/firefox.sh
 RUN $INST_SCRIPTS/chrome.sh
 
+### Install docker
+RUN $INST_SCRIPTS/install_docker.sh
+
+### Install sublime
+RUN $INST_SCRIPTS/install_sublime.sh
+
 ### Install xfce UI Theme and Icon
 RUN $INST_SCRIPTS/xfce_ui.sh
 RUN $INST_SCRIPTS/theme_and_icon.sh
 ADD ./src/common/themes/Qogir /usr/share/themes/Qogir/
 ADD ./src/common/xfce/ $HOME/
 
+### Clean apt
+RUN apt-get clean -y
+
 ### configure startup
 RUN $INST_SCRIPTS/libnss_wrapper.sh
 ADD ./src/common/scripts $STARTUPDIR
 RUN $INST_SCRIPTS/set_user_permission.sh $STARTUPDIR $HOME
 
-USER 1000
+### Add user ubuntu with sudo
+RUN $INST_SCRIPTS/add_user_ubuntu.sh
+
+USER ubuntu
 
 ENTRYPOINT ["/dockerstartup/vnc_startup.sh"]
 CMD ["--wait"]

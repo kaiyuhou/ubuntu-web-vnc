@@ -6,17 +6,10 @@ set -e
 help (){
 echo "
 USAGE:
-docker run -it -p 6901:6901 -p 5901:5901 consol/<image>:<tag> <option>
-
-IMAGES:
-consol/ubuntu-xfce-vnc
-consol/centos-xfce-vnc
-consol/ubuntu-icewm-vnc
-consol/centos-icewm-vnc
+docker run -it -p 6901:6901 -p 5901:5901 kaiyhou/consol-vnc
 
 TAGS:
-latest  stable version of branch 'master'
-dev     current development version of branch 'dev'
+18.04
 
 OPTIONS:
 -w, --wait      (default) keeps the UI and the vncserver up until SIGINT or SIGTERM will received
@@ -26,7 +19,7 @@ OPTIONS:
                 e.g. 'docker run consol/centos-xfce-vnc --debug bash'
 -h, --help      print out this help
 
-Fore more information see: https://github.com/ConSol/docker-headless-vnc-container
+Fore more information see: https://github.com/kaiyuhou/docker-headless-vnc-container
 "
 }
 if [[ $1 =~ -h|--help ]]; then
@@ -81,13 +74,6 @@ fi
 echo "$VNC_PW" | vncpasswd -f >> $PASSWD_PATH
 chmod 600 $PASSWD_PATH
 
-
-## start vncserver and noVNC webclient
-echo -e "\n------------------ start noVNC  ----------------------------"
-if [[ $DEBUG == true ]]; then echo "$NO_VNC_HOME/utils/launch.sh --vnc localhost:$VNC_PORT --listen $NO_VNC_PORT"; fi
-$NO_VNC_HOME/utils/launch.sh --vnc localhost:$VNC_PORT --listen $NO_VNC_PORT &> $STARTUPDIR/no_vnc_startup.log &
-PID_SUB=$!
-
 echo -e "\n------------------ start VNC server ------------------------"
 echo "remove old vnc locks to be a reattachable container"
 vncserver -kill $DISPLAY &> $STARTUPDIR/vnc_startup.log \
@@ -98,7 +84,20 @@ echo -e "start vncserver with param: VNC_COL_DEPTH=$VNC_COL_DEPTH, VNC_RESOLUTIO
 if [[ $DEBUG == true ]]; then echo "vncserver $DISPLAY -depth $VNC_COL_DEPTH -geometry $VNC_RESOLUTION"; fi
 vncserver $DISPLAY -depth $VNC_COL_DEPTH -geometry $VNC_RESOLUTION &> $STARTUPDIR/no_vnc_startup.log
 echo -e "start window manager\n..."
-$HOME/wm_startup.sh &> $STARTUPDIR/wm_startup.log
+
+### disable screensaver and power management
+xset -dpms &
+xset s noblank &
+xset s off &
+#/usr/bin/startxfce4 --replace > $HOME/wm.log &
+sleep 1
+
+## start vncserver and noVNC webclient
+echo -e "\n------------------ start noVNC  ----------------------------"
+if [[ $DEBUG == true ]]; then echo "$NO_VNC_HOME/utils/launch.sh --vnc localhost:$VNC_PORT --listen $NO_VNC_PORT"; fi
+$NO_VNC_HOME/utils/launch.sh --vnc localhost:$VNC_PORT --listen $NO_VNC_PORT &> $STARTUPDIR/no_vnc_startup.log &
+PID_SUB=$!
+
 
 ## log connect options
 echo -e "\n\n------------------ VNC environment started ------------------"
