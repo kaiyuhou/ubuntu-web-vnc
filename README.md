@@ -27,7 +27,7 @@ Branch: `main`
 
 - Run command with mapping to local port `8001` (vnc protocol) and `8002` (vnc web access):
 
-      bash start-container.sh
+      bash run-container.sh [password]
 
 - Build an image from scratch:
 

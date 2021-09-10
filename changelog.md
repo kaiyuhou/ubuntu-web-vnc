@@ -5,11 +5,12 @@ TODO
  * Chinese Input
  * Sound
 
-2021-09-11
+2021-09-10
  * Remove redundant content in Qogir theme
  * Support ARM64 (with buildx script)
+ * Update run script with password input support
 
-2021-09-10
+2021-09-09
  * update to Ubuntu 18.04
  * add user ubuntu with sudo permission
  * install sublime and docker

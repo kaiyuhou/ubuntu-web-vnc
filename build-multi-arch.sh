@@ -1,5 +1,5 @@
 #!/bin/bash
-docker build \
+docker buildx build \
   --platform linux/amd64,linux/arm64 \
   -t kaiyhou/ubuntu-vnc:latest \
   -t kaiyhou/ubuntu-vnc:18.04 \
@@ -8,8 +8,7 @@ docker build \
 
 ## init for the fisrt time
 #
-# docker buildx create --name mybuilder
-# docker buildx use mybuilder
+# docker buildx create --use --name mybuilder
 # docker run --privileged --rm tonistiigi/binfmt --install all
 # docker buildx inspect --bootstrap
 
