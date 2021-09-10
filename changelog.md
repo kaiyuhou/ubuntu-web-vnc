@@ -2,9 +2,12 @@
 
 TODO
  * Update to Ubuntu 20.04
- * Support ARM64 (aarch64)
  * Chinese Input
  * Sound
+
+2021-09-11
+ * Remove redundant content in Qogir theme
+ * Support ARM64 (with buildx script)
 
 2021-09-10
  * update to Ubuntu 18.04

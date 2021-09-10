@@ -31,7 +31,11 @@ Branch: `main`
 
 - Build an image from scratch:
 
-      bash build.sh
+      # for single arch
+      bash build-dev.sh
+      
+      # for multi arch (amd64, arm64) with proper tags
+      bash build-multi-arch.sh
 
 # Connect & Control
 If the container is started like mentioned above, connect via one of these options:
