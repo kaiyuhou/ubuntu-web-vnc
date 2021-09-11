@@ -7,6 +7,7 @@ TODO
  * Sound
  * Add domain name to the noVNC title
  * Git Action for auto build and push
+ * VNC Client seems not work properly after removed "/usr/bin/startxfce4 --replace > $HOME/wm.log &"
 
 2021-09-10
  * Remove redundant content in Qogir theme
