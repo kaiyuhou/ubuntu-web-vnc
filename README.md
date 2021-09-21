@@ -1,16 +1,18 @@
 # Kaiyu's Ubuntu VNC Container based on Consol's Version
 
-Branch: `main`
+Current Branch: `main`
 
-[**changelog and TODOs**](changelog.md)
+Current TODOs: [**changelog and TODOs**](changelog.md)
 
+
+Current Features:
 
 * Desktop environment [**Xfce4**](http://www.xfce.org)
-* VNC-Server (default VNC port `5901`)
+* VNC-Server (default VNC port `5901`): latest TigerVNC (which don't relay on unreliable `xstartup` file!)
 * [**noVNC**](https://github.com/novnc/noVNC) - HTML5 VNC client (default http port `6901`)
 * Software:
   * Mozilla Firefox
-  * Chromium
+  * Chromium (not work for ARM)
   * Sublime
   * Docker
  
