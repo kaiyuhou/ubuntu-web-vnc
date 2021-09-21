@@ -7,9 +7,9 @@ Current TODOs: [**changelog and TODOs**](changelog.md)
 
 Current Features:
 
-* Desktop environment [**Xfce4**](http://www.xfce.org)
-* VNC-Server (default VNC port `5901`): latest TigerVNC (which don't relay on unreliable `xstartup` file!)
-* [**noVNC**](https://github.com/novnc/noVNC) - HTML5 VNC client (default http port `6901`)
+* Desktop environment: [**Xfce4**](http://www.xfce.org)
+* VNCServer: latest [**TigerVNC**](https://github.com/TigerVNC/tigervnc) (which doesn't rely on unreliable `xstartup` to start desktop session!)
+* [**noVNC**](https://github.com/novnc/noVNC) - HTML5 VNC client
 * Software:
   * Mozilla Firefox
   * Chromium (not work for ARM)
