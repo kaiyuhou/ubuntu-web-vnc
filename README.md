@@ -4,7 +4,6 @@ Current Branch: `main`
 
 Current TODOs: [**changelog and TODOs**](changelog.md)
 
-
 Current Features:
 
 * Desktop environment: [**Xfce4**](http://www.xfce.org)
@@ -30,6 +29,10 @@ Current Features:
 - Run command with mapping to local port `8001` (vnc protocol) and `8002` (vnc web access):
 
       bash run-container.sh [password]
+      
+      # the latest tigerVNC server only allows localhost connections. So, 8001 cannot be accessd outside localhost.
+      # in vnc_startup.sh, add "-localhost no" option to vncserver line would diable this setting.
+      # TODO: add an option in run-container.sh
 
 - Build an image from scratch:
 

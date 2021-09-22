@@ -11,11 +11,13 @@ TODOs
     * Incorrect, see 2021-09-21 <del>potential to be a problem of apt tigervnc or ubuntu 18.04 (missing xstartup in .vnc)</del>
     * bypass: start a new vncserver at another port 
     * haven't check if this will happen without start novnc
+    * **Solution:** the latest tigerVNC requires the `-localhost no` option to disable localhost only access
  * Sound (we can here sound in vnc.html when delete a file)
     * tighervnc does not support sound yet: https://github.com/TigerVNC/tigervnc/issues/396
     * bypass: pulseaudio with SSH forward
     * one solution https://github.com/wu191287278/noVNC-audio
     * xrdp supports sounds
+ * noticed that supervisor installed but never been used.
     
 2021-09-21
  * Figured out that tigerVNC don't rely on `xstartup` file to config the desktop
