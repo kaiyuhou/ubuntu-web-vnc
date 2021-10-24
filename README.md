@@ -1,29 +1,30 @@
-# Kaiyu's Ubuntu VNC Container based on Consol's Version
+# Ubuntu Web VNC Container 
 
-Current Branch: `main`
+Run Ubuntu Web VNC withing Docker with one command!
 
-Current TODOs: [**changelog and TODOs**](changelog.md)
+**Credit**: based on [ConSol](https://github.com/ConSol/docker-headless-vnc-container) 's Version (achieved)
 
-Current Features:
+**Current TODOs**: [**changelog and TODOs**](changelog.md)
+
+**Features**:
 
 * Desktop environment: [**Xfce4**](http://www.xfce.org)
-* VNCServer: latest [**TigerVNC**](https://github.com/TigerVNC/tigervnc) (which doesn't rely on unreliable `xstartup` to start desktop session!)
-* [**noVNC**](https://github.com/novnc/noVNC) - HTML5 VNC client
+* VNCServer: latest [**TigerVNC**](https://github.com/TigerVNC/tigervnc)
+  * which doesn't rely on unreliable `xstartup` to start desktop session!
+* HTML5 VNC client: [**noVNC**](https://github.com/novnc/noVNC)
 * Software:
   * Mozilla Firefox
   * Chromium (not work for ARM)
   * Sublime
   * Docker
  
-## Current provided OS & UI sessions:
+## OS & UI sessions:
 
-* `kaiyhou/ubuntu-vnc`: __Ubuntu 18.04 with `Xfce4` UI session__
-    * X86-64
-    * ARM-64
-
-
-
-
+* `kaiyhou/ubuntu-web-vnc`: 
+  * __Ubuntu 18.04__ with `Xfce4` UI session
+      * X86-64
+      * ARM-64
+      
 ## Usage
 
 - Run command with mapping to local port `8001` (vnc protocol) and `8002` (vnc web access):
@@ -45,10 +46,11 @@ Current Features:
 # Connect & Control
 If the container is started like mentioned above, connect via one of these options:
 
-* connect via __VNC viewer `localhost:8001`__, default password: `VNC_PASSWORD`
-* connect via __noVNC HTML5 full client__: [`http://localhost:8002/vnc.html`](http://localhost:8002/vnc.html), default password: `VNC_PASSWORD` 
-* connect via __noVNC HTML5 lite client__: [`http://localhost:8002/?password=VNC_PASSWORD`](http://localhost:8002/?password=VNC_PASSWORD) 
+* __noVNC HTML5 full client__: [`http://localhost:8002/vnc.html`](http://localhost:8002/vnc.html), default password: `VNC_PASSWORD`
+  * With clipboard and Scale!
+* __noVNC HTML5 lite client__: [`http://localhost:8002/?password=VNC_PASSWORD`](http://localhost:8002/?password=VNC_PASSWORD) 
 
+* **TODO**: connect via __VNC viewer `localhost:8001`__, default password: `VNC_PASSWORD`
 
 ## Hints
 
@@ -57,7 +59,7 @@ All images run as non-root user per default, so if you want to extend the image 
 
 ```bash
 ## Custom Dockerfile
-FROM kaiyhou/ubuntu-vnc
+FROM kaiyhou/ubuntu-web-vnc
 
 # Switch to root user to install additional software
 USER 0
@@ -73,40 +75,40 @@ USER ubuntu
 ### 2) Using root (user id `0`)
 Add the `--user` flag to your docker run command:
 
-    docker run -it --user 0 ... kaiyhou/ubuntu-vnc
+    docker run -it --user 0 ... kaiyhou/ubuntu-web-vnc
 
 ### 2) Using user and group id of host system
 Add the `--user` flag to your docker run command:
 
-    docker run -it --user $(id -u):$(id -g) ... kaiyhou/ubuntu-vnc
+    docker run -it --user $(id -u):$(id -g) ... kaiyhou/ubuntu-web-vnc
 
 ### 3) Override VNC environment variables
 The following VNC environment variables can be overwritten at the `docker run` phase to customize your desktop environment inside the container:
 * `VNC_COL_DEPTH`, default: `24`
 * `VNC_RESOLUTION`, default: `1600x900`
-* `VNC_PW`
+* `VNC_PW`, default: `VNC_PASSWORD`
 
 #### 3.1) Example: Override the VNC password
 Simply overwrite the value of the environment variable `VNC_PW`. For example in
 the docker run command:
 
-    docker run -it -e VNC_PW=my-pw ... kaiyhou/ubuntu-vnc
+    docker run -it -e VNC_PW=my-pw ... kaiyhou/ubuntu-web-vnc
 
 #### 3.2) Example: Override the VNC resolution
 Simply overwrite the value of the environment variable `VNC_RESOLUTION`. For example in
 the docker run command:
 
-    docker run -it -e VNC_RESOLUTION=800x600 ... kaiyhou/ubuntu-vnc
+    docker run -it -e VNC_RESOLUTION=800x600 ... kaiyhou/ubuntu-web-vnc
     
 ### 4) View only VNC
 Since version `1.2.0` it's possible to prevent unwanted control via VNC. Therefore you can set the environment variable `VNC_VIEW_ONLY=true`. If set, the startup script will create a random password for the control connection and use the value of `VNC_PW` for view only connection over the VNC connection.
 
-     docker run -it -e VNC_VIEW_ONLY=true ... kaiyhou/ubuntu-vnc
+     docker run -it -e VNC_VIEW_ONLY=true ... kaiyhou/ubuntu-web-vnc
 
 ### 5) Chromium crashes with high VNC_RESOLUTION 
 The problem there is the too small `/dev/shm` size in the container. Except the solution below, we can also use `-v /dev/shm:/dev/shm`
 
-    docker run --shm-size=256m -it VNC_RESOLUTION=1920x1080 ... kaiyhou/ubuntu-vnc
+    docker run --shm-size=256m -it VNC_RESOLUTION=1920x1080 ... kaiyhou/ubuntu-web-vnc
   
 
 ## Contributors

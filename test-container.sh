@@ -9,7 +9,7 @@ docker run -it \
   -e VNC_PW=VNC_PASSWORD \
   -e VNC_RESOLUTION=1600x900 \
   -v ~/vnc-data:/headless/share \
-  --name ubuntu-vnc \
-  kaiyhou/ubuntu-vnc
+  --name ubuntu-web-vnc \
+  kaiyhou/ubuntu-web-vnc
 
 #    --user 0 \

@@ -1,4 +1,4 @@
 #!/bin/bash
 docker build \
-  -t kaiyhou/ubuntu-vnc:dev \
+  -t kaiyhou/ubuntu-web-vnc:dev \
   -f Dockerfile.ubuntu.xfce.vnc .

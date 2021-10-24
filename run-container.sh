@@ -15,8 +15,8 @@ docker run -d \
   -e VNC_PW="$PWD" \
   -e VNC_RESOLUTION=1600x900 \
   -v ~/vnc-data:/headless/share \
-  --name ubuntu-vnc \
-  kaiyhou/ubuntu-vnc
+  --name ubuntu-web-vnc \
+  kaiyhou/ubuntu-web-vnc
 
 ## --user 0: use root account, optional
 ## 5091: VNC, 6091: browser VNC
