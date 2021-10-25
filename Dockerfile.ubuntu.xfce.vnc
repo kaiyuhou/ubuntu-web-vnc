@@ -1,16 +1,18 @@
-# This Dockerfile is used to build an headles vnc image based on Ubuntu
+# This Dockerfile is used to build an web vnc image based on Ubuntu
+# https://github.com/kaiyuhou/ubuntu-web-vnc
 
 FROM ubuntu:18.04
 
-ENV REFRESHED_AT 2021-09-09
+ENV REFRESHED_AT 2021-10-25
 
 ## Connection ports for controlling the UI:
 # VNC port:5901
 # noVNC webport, connect via http://IP:6901/?password=VNC_PASSWORD
 ENV DISPLAY=:1 \
     VNC_PORT=5901 \
-    NO_VNC_PORT=6901
-EXPOSE $VNC_PORT $NO_VNC_PORT
+    NO_VNC_PORT=6901 \
+    VNC_CLIENT=0
+EXPOSE $VNC_PORT $NO_VNC_PORT $VNC_CLIENT
 
 ### Envrionment config
 ENV HOME=/headless \
@@ -26,46 +28,63 @@ ENV HOME=/headless \
 WORKDIR $HOME
 
 ### Add all install scripts for further steps
-ADD ./src/ubuntu/install/ $INST_SCRIPTS/
-RUN find $INST_SCRIPTS -name '*.sh' -exec chmod a+x {} +
+##ADD ./src/ubuntu/install/ $INST_SCRIPTS/
+##RUN find $INST_SCRIPTS -name '*.sh' -exec chmod a+x {} +
 
 ### Install some common tools
-RUN $INST_SCRIPTS/tools.sh
+ADD ./src/ubuntu/install/install_tools.sh $INST_SCRIPTS/
+RUN bash $INST_SCRIPTS/install_tools.sh
 ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en' LC_ALL='en_US.UTF-8'
 
 ### Install custom fonts
-RUN $INST_SCRIPTS/install_custom_fonts.sh
+ADD ./src/ubuntu/install/install_custom_fonts.sh $INST_SCRIPTS/
+RUN bash $INST_SCRIPTS/install_custom_fonts.sh
 
 ### Install xvnc-server & noVNC - HTML5 based VNC viewer
-RUN $INST_SCRIPTS/tigervnc_apt.sh
-RUN $INST_SCRIPTS/no_vnc.sh
+ADD ./src/ubuntu/install/install_tigervnc_apt.sh $INST_SCRIPTS/
+RUN bash $INST_SCRIPTS/install_tigervnc_apt.sh
+ADD ./src/ubuntu/install/install_no_vnc.sh $INST_SCRIPTS/
+RUN bash $INST_SCRIPTS/install_no_vnc.sh
 
 ### Install firefox and chrome browser
-RUN $INST_SCRIPTS/chrome.sh
-RUN $INST_SCRIPTS/install_firefox_apt.sh
+ADD ./src/ubuntu/install/install_chrome_apt.sh $INST_SCRIPTS/
+RUN bash $INST_SCRIPTS/install_chrome_apt.sh
+ADD ./src/ubuntu/install/install_firefox_apt.sh $INST_SCRIPTS/
+RUN bash $INST_SCRIPTS/install_firefox_apt.sh
 
 ### Install docker
-RUN $INST_SCRIPTS/install_docker.sh
+ADD ./src/ubuntu/install/install_docker.sh $INST_SCRIPTS/
+RUN bash $INST_SCRIPTS/install_docker.sh
 
 ### Install sublime
-RUN $INST_SCRIPTS/install_sublime.sh
+ADD ./src/ubuntu/install/install_sublime.sh $INST_SCRIPTS/
+RUN bash $INST_SCRIPTS/install_sublime.sh
 
 ### Install xfce UI Theme and Icon
-RUN $INST_SCRIPTS/xfce_ui.sh
-RUN $INST_SCRIPTS/theme_and_icon.sh
+ADD ./src/ubuntu/install/install_xfce_ui.sh $INST_SCRIPTS/
+RUN bash $INST_SCRIPTS/install_xfce_ui.sh
+ADD ./src/ubuntu/install/install_theme_and_icon.sh $INST_SCRIPTS/
+RUN bash $INST_SCRIPTS/install_theme_and_icon.sh
 ADD ./src/common/themes/Qogir /usr/share/themes/Qogir/
 ADD ./src/common/xfce/ $HOME/
+
+### Install libnss_wrapper: execute image as non-root user
+ADD ./src/ubuntu/install/install_libnss_wrapper.sh $INST_SCRIPTS/
+RUN bash $INST_SCRIPTS/install_libnss_wrapper.sh
 
 ### Clean apt
 RUN apt-get clean -y
 
-### configure startup
-RUN $INST_SCRIPTS/libnss_wrapper.sh
-ADD ./src/common/scripts $STARTUPDIR
-RUN $INST_SCRIPTS/set_user_permission.sh $STARTUPDIR $HOME
+### copy startup scripts
+ADD ./src/ubuntu/startup $STARTUPDIR
+
+### configure
+ADD ./src/ubuntu/config/set_user_permission.sh $INST_SCRIPTS/
+RUN bash $INST_SCRIPTS/set_user_permission.sh $STARTUPDIR $HOME
 
 ### Add user ubuntu with sudo
-RUN $INST_SCRIPTS/add_user_ubuntu.sh
+ADD ./src/ubuntu/config/add_user_ubuntu.sh $INST_SCRIPTS/
+RUN bash $INST_SCRIPTS/add_user_ubuntu.sh
 
 USER ubuntu
 

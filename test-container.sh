@@ -10,6 +10,6 @@ docker run -it \
   -e VNC_RESOLUTION=1600x900 \
   -v ~/vnc-data:/headless/share \
   --name ubuntu-web-vnc \
-  kaiyhou/ubuntu-web-vnc
+  kaiyhou/ubuntu-web-vnc:dev
 
 #    --user 0 \
