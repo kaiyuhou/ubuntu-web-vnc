@@ -4,7 +4,7 @@ Run Ubuntu Web VNC within Docker with one command!
 
 **Credit**: based on [ConSol](https://github.com/ConSol/docker-headless-vnc-container) 's Version (achieved)
 
-**Current TODOs**: [**changelog and TODOs**](changelog.md)
+**Current TODOs**: [changelog and TODOs](changelog.md)
 
 **Features**:
 
