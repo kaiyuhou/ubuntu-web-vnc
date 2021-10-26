@@ -21,6 +21,7 @@ Achieved
  * Remove supervisor
  * Chinese Input: rime by default: `Ctrl` + `Space`
  * A option to enable VNC Client: `-e VNC_CLIENT=false`
+ * Tag to version 2.0.0
 
 2021-10-23
  * Rename project to `ubuntu-web-vnc`
