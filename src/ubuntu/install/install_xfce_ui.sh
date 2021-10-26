@@ -4,8 +4,6 @@ set -e
 
 echo "Install Xfce4 UI components"
 apt-get update 
-apt-get install -y supervisor xfce4 xfce4-terminal xterm xfce4-goodies
+apt-get install -y xfce4 xfce4-terminal xterm xfce4-goodies
 apt-get purge -y pm-utils xscreensaver*
 apt-get clean -y
-
-## 2021-09-22: noticed that supervisor never been used.

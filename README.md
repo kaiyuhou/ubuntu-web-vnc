@@ -14,9 +14,10 @@ Run Ubuntu Web VNC within Docker with one command!
 * HTML5 VNC client: [**noVNC**](https://github.com/novnc/noVNC)
 * Software:
   * Mozilla Firefox
-  * Chromium (not work for ARM)
+  * Chromium (not work for `ARM`, a known problem of Chrome)
   * Sublime
   * Docker
+  * Chinese Input (`Ctrl` + `Space`)
  
 ## OS & UI sessions:
 
@@ -109,6 +110,16 @@ Since version `1.2.0` it's possible to prevent unwanted control via VNC. Therefo
 The problem there is the too small `/dev/shm` size in the container. Except the solution below, we can also use `-v /dev/shm:/dev/shm`
 
     docker run --shm-size=256m -it VNC_RESOLUTION=1920x1080 ... kaiyhou/ubuntu-web-vnc
+
+### 6) Chinese Input Usage
+
+ * `Ctrl` + `Space` switch to Chinese input: `fcitx-rime`.
+ * In the `rime` input, simple click left `shift` to switch between `Chinese` and `English`
+ * Traditional/Simplification Chinese, and other features switch: `Ctrl` + `~`
+ * Issues: 
+   * `Fcitx Configuration` application in xfce4 application menu cannot link to `fcitx` server automatically.
+   * Solution: `killall fcitx` then `fcitx`. Then, you can config fcitx via GUI.
+
   
 
 ## Contributors

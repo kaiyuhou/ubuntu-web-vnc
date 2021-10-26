@@ -12,13 +12,13 @@ TODOs
     * bypass: pulseaudio with SSH forward
     * one solution https://github.com/wu191287278/noVNC-audio
     * xrdp supports sounds
- * noticed that supervisor installed but never been used.
 
 Achieved
 * Chrome not work on ARM64 Oracle Linux (seems to be a problem of chromium, PS there is not )
 
 2021-10-25
  * Re-organize Dockerfile for easier developer
+ * Remove supervisor
 
 2021-10-23
  * Rename project to `ubuntu-web-vnc`

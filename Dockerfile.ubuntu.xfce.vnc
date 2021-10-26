@@ -27,10 +27,6 @@ ENV HOME=/headless \
     VNC_VIEW_ONLY=false
 WORKDIR $HOME
 
-### Add all install scripts for further steps
-##ADD ./src/ubuntu/install/ $INST_SCRIPTS/
-##RUN find $INST_SCRIPTS -name '*.sh' -exec chmod a+x {} +
-
 ### Install some common tools
 ADD ./src/ubuntu/install/install_tools.sh $INST_SCRIPTS/
 RUN bash $INST_SCRIPTS/install_tools.sh
@@ -72,6 +68,10 @@ ADD ./src/common/xfce/ $HOME/
 ADD ./src/ubuntu/install/install_libnss_wrapper.sh $INST_SCRIPTS/
 RUN bash $INST_SCRIPTS/install_libnss_wrapper.sh
 
+### Install fcitx-rime
+ADD ./src/ubuntu/install/install_fcitx_rime.sh $INST_SCRIPTS/
+RUN bash $INST_SCRIPTS/install_fcitx_rime.sh
+
 ### Clean apt
 RUN apt-get clean -y
 
@@ -86,7 +86,9 @@ RUN bash $INST_SCRIPTS/set_user_permission.sh $STARTUPDIR $HOME
 ADD ./src/ubuntu/config/add_user_ubuntu.sh $INST_SCRIPTS/
 RUN bash $INST_SCRIPTS/add_user_ubuntu.sh
 
+### Switch user ubuntu
 USER ubuntu
+RUN sudo apt update -y
 
 ENTRYPOINT ["/dockerstartup/vnc_startup.sh"]
 CMD ["--wait"]

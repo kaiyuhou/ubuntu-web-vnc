@@ -6,7 +6,7 @@ set -e
 help (){
 echo "
 USAGE:
-docker run -it -p 6901:6901 -p 5901:5901 kaiyhou/consol-vnc
+docker run -it -p 8002:6901 -p 8001:5901 kaiyhou/ubuntu-web-vnc
 
 TAGS:
 18.04
@@ -19,7 +19,7 @@ OPTIONS:
                 e.g. 'docker run consol/centos-xfce-vnc --debug bash'
 -h, --help      print out this help
 
-Fore more information see: https://github.com/kaiyuhou/docker-headless-vnc-container
+Fore more information see: https://github.com/kaiyuhou/ubuntu-web-vnc
 "
 }
 if [[ $1 =~ -h|--help ]]; then
@@ -27,7 +27,7 @@ if [[ $1 =~ -h|--help ]]; then
     exit 0
 fi
 
-# should also source $STARTUPDIR/generate_container_user
+# should also source $STARTUPDIR/generate_container_user.sh
 source $HOME/.bashrc
 
 # add `--skip` to startup args, to skip the VNC startup procedure
@@ -50,7 +50,7 @@ cleanup () {
 trap cleanup SIGINT SIGTERM
 
 ## write correct window size to chrome properties
-$STARTUPDIR/chrome-init.sh
+$STARTUPDIR/chrome_init.sh
 
 ## resolve_vnc_connection
 VNC_IP=$(hostname -i)
@@ -84,6 +84,7 @@ echo -e "start vncserver with param: VNC_COL_DEPTH=$VNC_COL_DEPTH, VNC_RESOLUTIO
 if [[ $DEBUG == true ]]; then echo "vncserver $DISPLAY -depth $VNC_COL_DEPTH -geometry $VNC_RESOLUTION"; fi
 vncserver $DISPLAY -depth $VNC_COL_DEPTH -geometry $VNC_RESOLUTION &> $STARTUPDIR/no_vnc_startup.log
 echo -e "start window manager\n..."
+echo $VNC_CLIENT
 
 ### disable screensaver and power management
 xset -dpms &
@@ -92,7 +93,7 @@ xset s off &
 #/usr/bin/startxfce4 --replace > $HOME/wm.log &
 sleep 1
 
-## start vncserver and noVNC webclient
+## start noVNC webclient
 echo -e "\n------------------ start noVNC  ----------------------------"
 if [[ $DEBUG == true ]]; then echo "$NO_VNC_HOME/utils/launch.sh --vnc localhost:$VNC_PORT --listen $NO_VNC_PORT"; fi
 $NO_VNC_HOME/utils/launch.sh --vnc localhost:$VNC_PORT --listen $NO_VNC_PORT &> $STARTUPDIR/no_vnc_startup.log &
@@ -104,11 +105,14 @@ echo -e "\n\n------------------ VNC environment started ------------------"
 echo -e "\nVNCSERVER started on DISPLAY= $DISPLAY \n\t=> connect via VNC viewer with $VNC_IP:$VNC_PORT"
 echo -e "\nnoVNC HTML client started:\n\t=> connect via http://$VNC_IP:$NO_VNC_PORT/?password=...\n"
 
-## update apt
-echo -e "\n\n------------------ update apt ------------------"
-sudo apt update
+
+## init fcitx-rime for simplified Chinese
+sleep 2
+echo -e "\n\n------------------ Init Chinese Input ------------------"
+bash $STARTUPDIR/fcitx_rime_init.sh
 
 
+echo -e "Ready..."
 if [[ $DEBUG == true ]] || [[ $1 =~ -t|--tail-log ]]; then
     echo -e "\n------------------ $HOME/.vnc/*$DISPLAY.log ------------------"
     # if option `-t` or `--tail-log` block the execution and tail the VNC log
