@@ -6,5 +6,6 @@ echo "Install Papirus Icons"
 apt-get install software-properties-common -y
 add-apt-repository ppa:papirus/papirus -y
 apt-get update
-apt-get install papirus-icon-theme
+apt-get install papirus-icon-theme -y
+
 
