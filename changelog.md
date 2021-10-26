@@ -12,6 +12,7 @@ TODOs
  * Do we really need the `libnss_wrapper`?
  * Update noVNC client to the latest version
  * Install Qogir Icon theme via Network/apt
+   * Or using Zip to install Qogir and Papirus, instead of APT and COPY
 
 Achieved
 * Chrome not work on ARM64 Oracle Linux (seems to be a problem of chromium)
