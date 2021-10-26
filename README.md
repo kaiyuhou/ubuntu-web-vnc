@@ -14,7 +14,7 @@ Run Ubuntu Web VNC within Docker with one command!
 * HTML5 VNC client: [**noVNC**](https://github.com/novnc/noVNC)
 * Software:
   * Mozilla Firefox
-  * Chromium (not work for `ARM`, a known problem of Chrome)
+  * Chromium (not work for `ARM`, a known problem of Chrome?)
   * Sublime
   * Docker
   * Chinese Input (`Ctrl` + `Space`)
