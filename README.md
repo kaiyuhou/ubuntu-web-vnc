@@ -28,13 +28,28 @@ Run Ubuntu Web VNC within Docker with one command!
       
 ## Usage
 
-- Run command with mapping to local port `8001` (vnc protocol) and `8002` (vnc web access):
+- Run command with mapping to local port `8002` (vnc web access):
 
       bash run-container.sh [password]
+      # visit: http://Your_IP|Domain:8002
       
-      # the latest tigerVNC server only allows localhost connections. So, 8001 cannot be accessd outside localhost.
-      # in vnc_startup.sh, add "-localhost no" option to vncserver line would diable this setting.
-      # TODO: add an option in run-container.sh
+
+- Advanced usage
+    ```bash
+    docker run -d \
+      --privileged \
+      --restart=on-failure:10 \
+      --shm-size=512m \
+      -v /var/run/docker.sock:/var/run/docker.sock \
+      -v /etc/timezone:/etc/timezone:ro \
+      -p 8001:5901 -p 8002:6901 \
+      -e VNC_PW=VNC_PASSWORD \
+      -e VNC_RESOLUTION=1600x900 \
+      -e VNC_CLIENT=false \
+      -v ~/vnc-data:/headless/share \
+      --name ubuntu-web-vnc \
+      kaiyhou/ubuntu-web-vnc
+    ```
 
 - Build an image from scratch:
 
@@ -48,12 +63,26 @@ Run Ubuntu Web VNC within Docker with one command!
 If the container is started like mentioned above, connect via one of these options:
 
 * __noVNC HTML5 full client__: [`http://localhost:8002/vnc.html`](http://localhost:8002/vnc.html), default password: `VNC_PASSWORD`
-  * With clipboard and Scale!
+  * With clipboard and Scale at side panel!
 * __noVNC HTML5 lite client__: [`http://localhost:8002/?password=VNC_PASSWORD`](http://localhost:8002/?password=VNC_PASSWORD) 
 
-* **TODO**: connect via __VNC viewer `localhost:8001`__, default password: `VNC_PASSWORD`
+* __VNC viewer Client__: `localhost:8001`, default password: `VNC_PASSWORD`, disabled by defalut
+  * Requirement: `-e VNC_CLIENT=true` in `docker run` command
 
 ## Hints
+
+### 0) Security Consideration: best practice
+  In short, disable vnc client option (disabled by default) and use `Caddy` server to proxy the web VNC by `https`.
+  * Disable VNC Client: `-e VNC_CLIENT=false \`
+  * Set VNC Port to localhost only: `-p 127.0.0.1:8001:5901 -p 127.0.0.1:8002:6901 \`
+  * Use [`Caddy`](https://caddyserver.com/docs/) Server to reverse proxy Web VNC with https
+    * ```
+      # /etc/caddy/Caddyfile
+      vnc.your_domain.com {
+        reverse_proxy localhost:8002
+      }
+      ```
+  * Access Web VNC via `https`: `https://vnc.your_domain.com`
 
 ### 1) Extend a Image with your own software
 All images run as non-root user per default, so if you want to extend the image and install software, you have to switch back to the `root` user:

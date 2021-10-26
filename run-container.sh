@@ -5,15 +5,26 @@ if [ "$1" ] ;then
   PWD="$1"
 fi
 
+VNCPT="8001"
+if [ "$2" ] ;then
+  VNCPT="$2"
+fi
+
+WEBPT="8002"
+if [ "$3" ] ;then
+  WEBPT="$3"
+fi
+
 docker run -d \
   --privileged \
   --restart=on-failure:10 \
   --shm-size=512m \
   -v /var/run/docker.sock:/var/run/docker.sock \
   -v /etc/timezone:/etc/timezone:ro \
-  -p 8001:5901 -p 8002:6901 \
+  -p "$VNCPT":5901 -p "$WEBPT":6901 \
   -e VNC_PW="$PWD" \
   -e VNC_RESOLUTION=1600x900 \
+  -e VNC_CLIENT=false \
   -v ~/vnc-data:/headless/share \
   --name ubuntu-web-vnc \
   kaiyhou/ubuntu-web-vnc

@@ -2,23 +2,25 @@
 
 TODOs
  * Update to Ubuntu 20.04
- * Chinese Input
  * Add domain name to the noVNC title
  * Git Action for auto build and push
- * VNC Client seems not work properly 
-    * **Solution:** the latest tigerVNC requires the `-localhost no` option to disable localhost only access
  * Sound (we can here sound in vnc.html when delete a file)
     * tighervnc does not support sound yet: https://github.com/TigerVNC/tigervnc/issues/396
     * bypass: pulseaudio with SSH forward
     * one solution https://github.com/wu191287278/noVNC-audio
     * xrdp supports sounds
+ * Do we really need the `libnss_wrapper`?
+ * Update noVNC client to the latest version
+ * Install Qogir Icon theme via Network/apt
 
 Achieved
-* Chrome not work on ARM64 Oracle Linux (seems to be a problem of chromium, PS there is not )
+* Chrome not work on ARM64 Oracle Linux (seems to be a problem of chromium)
 
 2021-10-25
  * Re-organize Dockerfile for easier developer
  * Remove supervisor
+ * Chinese Input: rime by default: `Ctrl` + `Space`
+ * A option to enable VNC Client: `-e VNC_CLIENT=false`
 
 2021-10-23
  * Rename project to `ubuntu-web-vnc`

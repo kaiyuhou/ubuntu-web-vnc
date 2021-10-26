@@ -82,9 +82,15 @@ vncserver -kill $DISPLAY &> $STARTUPDIR/vnc_startup.log \
 
 echo -e "start vncserver with param: VNC_COL_DEPTH=$VNC_COL_DEPTH, VNC_RESOLUTION=$VNC_RESOLUTION\n..."
 if [[ $DEBUG == true ]]; then echo "vncserver $DISPLAY -depth $VNC_COL_DEPTH -geometry $VNC_RESOLUTION"; fi
-vncserver $DISPLAY -depth $VNC_COL_DEPTH -geometry $VNC_RESOLUTION &> $STARTUPDIR/no_vnc_startup.log
+if [[ $VNC_CLIENT == true ]]; then
+  echo -e "enable VNC Client Connection"
+  vncserver $DISPLAY -localhost no -depth $VNC_COL_DEPTH -geometry $VNC_RESOLUTION &> $STARTUPDIR/no_vnc_startup.log;
+else
+  vncserver $DISPLAY -depth $VNC_COL_DEPTH -geometry $VNC_RESOLUTION &> $STARTUPDIR/no_vnc_startup.log;
+fi
+
 echo -e "start window manager\n..."
-echo $VNC_CLIENT
+echo
 
 ### disable screensaver and power management
 xset -dpms &
